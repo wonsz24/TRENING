@@ -22,12 +22,6 @@ private var settings = [
 struct ProspectView: View {
    
     var body: some View {
-        VStack{
-            HStack{
-//                Image("Avatar 1")
-                Text("TEST")
-            }
-        }
         NavigationStack {
             List(settings) { setting in
                 NavigationLink(setting.name, value: setting)
@@ -36,7 +30,6 @@ struct ProspectView: View {
             .navigationDestination(for: Ustawienia.self) { ustawienie in
                             Text("Wybrano: \(ustawienie.name)")
                         }
-            .navigationTitle("Ustawienia")
         }
     }
 }
