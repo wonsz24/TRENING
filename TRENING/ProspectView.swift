@@ -20,29 +20,73 @@ private var settings = [
 ]
 
 struct ProspectView: View {
+    @AppStorage("profileImage") var profileImage: String?
    
+    @State var isEditingImage = false
+    @State var selectedImage: String?
+    
+    var images = ["Avatar 1", "Avatar 2", "Avatar 3", "Avatar 4", "Avatar 5", "Avatar 6", "Avatar 7"]
+    
     var body: some View {
         NavigationStack {
             VStack{
                 HStack{
-                    Image("Avatar 1")
+                    Image(profileImage ?? "Avatar 1") // ?? powoduje, że domyślnie będzie Avatar1 jako zdjęcie
                         .resizable()
                         .scaledToFit()
                         .frame(width:100, height: 100)
                         .padding(.all, 8)
-                    
+                        .onTapGesture {
+                            isEditingImage = true
+                        }
                     Text("Marcin Zaporowski")
                         .font(.title)
                         
                 }
                 .frame(maxWidth: .infinity/*, maxHeight: .infinity, */,alignment: .topLeading)
                 
-                
             }
             VStack{
-                NavigationLink(destination: BodySize()) {
-                    Text("Edytuj zdjęcie")
-//                       .padding()
+                Button("Edytuj zdjęcie"){
+                    isEditingImage = true
+                }
+              
+            }
+            
+            if isEditingImage {
+                ScrollView(.horizontal) {
+                    HStack{
+                        ForEach(images, id: \.self) { image in
+                            Button {
+                                selectedImage = image
+                                print(selectedImage)
+                            } label: {
+                                Image(image)
+                                   .resizable()
+                                   .scaledToFit()
+                                   .frame(width:100, height: 100)
+                            }
+                            
+
+                        }
+                    }
+                }
+                HStack {
+                    Button("Anuluj") {
+                        isEditingImage = false
+                    }
+                    .buttonStyle(.borderedProminent)
+//                    .frame(width: 200)
+                    
+                    Button("Zmień") {
+                        withAnimation {
+                            profileImage = selectedImage
+                            isEditingImage = false
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+//                    .frame(width: 200)
+                    
                 }
             }
             
@@ -55,7 +99,9 @@ struct ProspectView: View {
                         }
             .navigationTitle("Ustawienia")
         }
-        
+        .onAppear() {
+            selectedImage = profileImage
+        }
     }
 }
 
