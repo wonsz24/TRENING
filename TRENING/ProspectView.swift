@@ -37,7 +37,9 @@ struct ProspectView: View {
                         .frame(width:100, height: 100)
                         .padding(.all, 8)
                         .onTapGesture {
-                            isEditingImage = true
+                            withAnimation {
+                                isEditingImage = true
+                            }
                         }
                     Text("Marcin Zaporowski")
                         .font(.title)
@@ -48,7 +50,9 @@ struct ProspectView: View {
             }
             VStack{
                 Button("Edytuj zdjęcie"){
-                    isEditingImage = true
+                    withAnimation {
+                        isEditingImage = true
+                    }
                 }
               
             }
@@ -58,14 +62,24 @@ struct ProspectView: View {
                     HStack{
                         ForEach(images, id: \.self) { image in
                             Button {
-                                selectedImage = image
-                                print(selectedImage)
+                                withAnimation {
+                                    selectedImage = image
+                                }
+                           
                             } label: {
-                                Image(image)
-                                   .resizable()
-                                   .scaledToFit()
-                                   .frame(width:100, height: 100)
+                                VStack {
+                                    Image(image)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width:100, height: 100)
+                                    
+                                    if selectedImage == image {
+                                        Circle()
+                                            .frame(width: 10, height: 10)
+                                    }
+                                }
                             }
+                            .shadow(radius: selectedImage == image ? 5 : 0)
                             
 
                         }
@@ -73,7 +87,9 @@ struct ProspectView: View {
                 }
                 HStack {
                     Button("Anuluj") {
-                        isEditingImage = false
+                        withAnimation {
+                            isEditingImage = false
+                        }
                     }
                     .buttonStyle(.borderedProminent)
 //                    .frame(width: 200)
