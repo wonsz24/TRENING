@@ -43,6 +43,10 @@ struct ProspectView: View {
                         }
                     Text("Marcin Zaporowski")
                         .font(.title)
+                    
+                    NavigationLink(destination: EditProfileView()) {
+                        Text("Marcin Zaporowski")
+                    }
                         
                 }
                 .frame(maxWidth: .infinity/*, maxHeight: .infinity, */,alignment: .topLeading)
